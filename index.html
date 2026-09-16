@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Chamar Técnico</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green-primary: oklch(55% 0.18 145);
+    --green-light: oklch(92% 0.06 145);
+    --green-glow: oklch(65% 0.2 145);
+    --red-muted: oklch(55% 0.12 25);
+    --red-light: oklch(92% 0.04 25);
+    --bg: oklch(97.5% 0.005 145);
+    --surface: oklch(99% 0.003 145);
+    --text-primary: oklch(18% 0.01 145);
+    --text-secondary: oklch(45% 0.01 145);
+    --text-tertiary: oklch(62% 0.008 145);
+    --border: oklch(88% 0.01 145);
+    --border-light: oklch(93% 0.008 145);
+    --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.06);
+    --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.08);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    font-optical-sizing: auto;
+  }
+
+  .page {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 16px 32px;
+  }
+
+  .header {
+    padding: 24px 0 20px;
+    text-align: center;
+  }
+
+  .header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--green-primary);
+    margin-bottom: 12px;
+  }
+
+  .header-icon svg {
+    width: 26px;
+    height: 26px;
+    fill: oklch(99% 0.005 145);
+  }
+
+  .header h1 {
+    font-size: 1.375rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    text-wrap: balance;
+  }
+
+  .header-time {
+    font-size: 0.8125rem;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .header-time .clock {
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  .status-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--green-light);
+    margin-bottom: 20px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--green-primary);
+  }
+
+  .status-banner.none-available {
+    background: var(--red-light);
+    color: var(--red-muted);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green-primary);
+    flex-shrink: 0;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .none-available .status-dot {
+    background: var(--red-muted);
+    animation: none;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .section-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+    padding-left: 2px;
+  }
+
+  .tech-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tech-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    transition: transform 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
+  }
+
+  .tech-item:active {
+    transform: scale(0.985);
+  }
+
+  .tech-item.available {
+    border-color: oklch(82% 0.08 145);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .tech-info {
+    min-width: 0;
+  }
+
+  .tech-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tech-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+  }
+
+  .tech-shift {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tech-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .tech-status.on {
+    background: var(--green-light);
+    color: var(--green-primary);
+  }
+
+  .tech-status.off {
+    background: oklch(94% 0.005 145);
+    color: var(--text-tertiary);
+  }
+
+  .tech-phone {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  .wpp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--green-primary);
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: transform 150ms var(--ease-out-expo), background 150ms var(--ease-out-expo);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .wpp-btn:active {
+    transform: scale(0.9);
+    background: var(--green-glow);
+  }
+
+  .wpp-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: oklch(99% 0.005 145);
+  }
+
+  .tech-item:not(.available) .wpp-btn {
+    background: oklch(82% 0.01 145);
+  }
+
+  .off-shift-section {
+    opacity: 0.7;
+  }
+
+  .off-shift-section .tech-item {
+    background: oklch(97% 0.003 145);
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 0.6875rem;
+    color: var(--text-tertiary);
+    padding-top: 8px;
+    border-top: 1px solid var(--border-light);
+    font-weight: 500;
+  }
+
+  .footer a {
+    color: var(--green-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .tech-item {
+    animation: slide-up 400ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 50ms);
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (min-width: 481px) {
+    .page { padding: 0 24px 48px; }
+    .header { padding: 32px 0 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </div>
+    <h1>Chamar Técnico</h1>
+    <div class="header-time">
+      <span id="date-display"></span> · <span class="clock" id="clock-display"></span>
+    </div>
+  </div>
+
+  <div class="status-banner" id="status-banner">
+    <div class="status-dot"></div>
+    <span id="status-text"></span>
+  </div>
+
+  <div id="available-section">
+    <div class="section-label">Em turno agora</div>
+    <div class="tech-list" id="available-list"></div>
+  </div>
+
+  <div id="off-section" class="off-shift-section">
+    <div class="section-label">Fora de turno</div>
+    <div class="tech-list" id="off-list"></div>
+  </div>
+
+  <div class="footer">
+    Atualiza automaticamente a cada minuto<br>
+    Manutenção Central
+  </div>
+</div>
+
+<script>
+const TECNICOS = [
+  { nome: "Denilson Fernandes", tel: "(16) 99607-6225", wpp: "5516996076225", t1: [8,0,12,0], t2: [13,0,17,0] },
+  { nome: "Cássio U. de Souza", tel: "(16) 99737-0560", wpp: "5516997370560", t1: [8,0,12,0], t2: [13,0,18,0] },
+  { nome: "Otávio Alves",       tel: "(16) 99643-7458", wpp: "5516996437458", t1: [8,30,12,30], t2: [13,30,17,30] },
+  { nome: "Renato R. Marani",   tel: "(16) 99715-6731", wpp: "5516997156731", t1: [6,0,12,0], t2: [13,0,15,0] },
+  { nome: "Marquinhos",         tel: "(16) 99732-8407", wpp: "5516997328407", t1: [6,0,11,0], t2: [12,0,16,0] },
+  { nome: "Huander dos Santos", tel: "(16) 99754-4234", wpp: "5516997544234", t1: [7,0,12,0], t2: [13,0,16,0] },
+  { nome: "Eder Carlos Silva",  tel: "(16) 99632-6816", wpp: "5516996326816", t1: [9,0,13,0], t2: [14,0,20,0] },
+];
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function isOnShift(tech, now) {
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const t1s = tech.t1[0] * 60 + tech.t1[1];
+  const t1e = tech.t1[2] * 60 + tech.t1[3];
+  const t2s = tech.t2[0] * 60 + tech.t2[1];
+  const t2e = tech.t2[2] * 60 + tech.t2[3];
+  return (mins >= t1s && mins < t1e) || (mins >= t2s && mins < t2e);
+}
+
+function formatShift(t) {
+  return `${pad(t[0])}:${pad(t[1])}–${pad(t[2])}:${pad(t[3])}`;
+}
+
+function buildTechHTML(tech, available, index) {
+  const statusClass = available ? 'on' : 'off';
+  const statusLabel = available ? 'Em turno' : 'Fora';
+  const itemClass = available ? 'available' : '';
+  const msg = encodeURIComponent(`Olá ${tech.nome.split(' ')[0]}, preciso de suporte técnico.`);
+  const wppLink = `https://wa.me/${tech.wpp}?text=${msg}`;
+
+  return `
+    <div class="tech-item ${itemClass}" style="--i: ${index}">
+      <div class="tech-info">
+        <div class="tech-name">${tech.nome}</div>
+        <div class="tech-meta">
+          <span class="tech-status ${statusClass}">${statusLabel}</span>
+          <span class="tech-shift">${formatShift(tech.t1)} · ${formatShift(tech.t2)}</span>
+        </div>
+        <div class="tech-phone">${tech.tel}</div>
+      </div>
+      <a href="${wppLink}" target="_blank" rel="noopener" class="wpp-btn" aria-label="Chamar ${tech.nome} no WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+    </div>`;
+}
+
+function render() {
+  const now = new Date();
+  const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  document.getElementById('date-display').textContent =
+    `${dias[now.getDay()]}, ${now.getDate()} ${meses[now.getMonth()]}`;
+  document.getElementById('clock-display').textContent =
+    `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+  const available = [];
+  const off = [];
+  TECNICOS.forEach(t => {
+    if (isOnShift(t, now)) available.push(t);
+    else off.push(t);
+  });
+
+  const banner = document.getElementById('status-banner');
+  const statusText = document.getElementById('status-text');
+  if (available.length > 0) {
+    banner.className = 'status-banner';
+    statusText.textContent = `${available.length} técnico${available.length > 1 ? 's' : ''} disponível${available.length > 1 ? 'is' : ''} agora`;
+  } else {
+    banner.className = 'status-banner none-available';
+    statusText.textContent = 'Nenhum técnico em turno agora';
+  }
+
+  const availSection = document.getElementById('available-section');
+  const availList = document.getElementById('available-list');
+  if (available.length > 0) {
+    availSection.style.display = 'block';
+    availList.innerHTML = available.map((t, i) => buildTechHTML(t, true, i)).join('');
+  } else {
+    availSection.style.display = 'none';
+  }
+
+  const offSection = document.getElementById('off-section');
+  const offList = document.getElementById('off-list');
+  if (off.length > 0) {
+    offSection.style.display = 'block';
+    offList.innerHTML = off.map((t, i) => buildTechHTML(t, false, i + available.length)).join('');
+  } else {
+    offSection.style.display = 'none';
+  }
+}
+
+render();
+setInterval(render, 60000);
+</script>
+</body>
+</html>
