@@ -4,33 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Chamar Técnico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --green-primary: oklch(55% 0.18 145);
-    --green-light: oklch(92% 0.06 145);
-    --green-glow: oklch(65% 0.2 145);
-    --red-muted: oklch(55% 0.12 25);
-    --red-light: oklch(92% 0.04 25);
-    --bg: oklch(97.5% 0.005 145);
-    --surface: oklch(99% 0.003 145);
-    --text-primary: oklch(18% 0.01 145);
-    --text-secondary: oklch(45% 0.01 145);
-    --text-tertiary: oklch(62% 0.008 145);
-    --border: oklch(88% 0.01 145);
-    --border-light: oklch(93% 0.008 145);
-    --shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.06);
-    --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.08);
-    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --green-deep: oklch(48% 0.14 155);
+    --green-mid: oklch(55% 0.16 152);
+    --green-bright: oklch(62% 0.18 150);
+    --green-tint: oklch(94% 0.03 150);
+    --red-deep: oklch(50% 0.1 25);
+    --red-tint: oklch(93% 0.03 25);
+    --amber-deep: oklch(52% 0.1 75);
+    --amber-tint: oklch(93% 0.04 75);
+    --blue-deep: oklch(50% 0.1 250);
+    --blue-tint: oklch(93% 0.03 250);
+    --bg: oklch(97% 0.006 90);
+    --surface: oklch(99.5% 0.003 90);
+    --text-1: oklch(16% 0.01 90);
+    --text-2: oklch(40% 0.008 90);
+    --text-3: oklch(58% 0.006 90);
+    --border: oklch(90% 0.008 90);
+    --shadow-card: 0 1px 2px oklch(16% 0.01 90 / 0.04), 0 2px 8px oklch(16% 0.01 90 / 0.03);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
-    color: var(--text-primary);
+    color: var(--text-1);
     font-size: 16px;
     line-height: 1.5;
     min-height: 100dvh;
@@ -38,389 +41,299 @@
     font-optical-sizing: auto;
   }
 
-  .page {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 16px 32px;
-  }
+  .page { max-width: 440px; margin: 0 auto; padding: 0 16px 40px; }
 
   .header {
-    padding: 24px 0 20px;
-    text-align: center;
+    padding: 28px 0 24px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
   }
+
+  .header-top { display: flex; align-items: center; gap: 10px; }
 
   .header-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    background: var(--green-primary);
-    margin-bottom: 12px;
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--green-deep);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-
-  .header-icon svg {
-    width: 26px;
-    height: 26px;
-    fill: oklch(99% 0.005 145);
-  }
+  .header-icon svg { width: 20px; height: 20px; fill: oklch(98% 0.005 150); }
 
   .header h1 {
-    font-size: 1.375rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-    text-wrap: balance;
+    font-size: 1.25rem; font-weight: 800;
+    letter-spacing: -0.025em; color: var(--text-1);
   }
 
   .header-time {
-    font-size: 0.8125rem;
-    color: var(--text-tertiary);
-    margin-top: 4px;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
+    font-size: 0.8125rem; color: var(--text-3);
+    font-weight: 600; font-variant-numeric: tabular-nums; text-transform: capitalize;
   }
 
-  .header-time .clock {
-    font-weight: 700;
-    color: var(--text-secondary);
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.01em;
+    margin-bottom: 20px; width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .status-pill.ok { background: var(--green-tint); color: var(--green-deep); }
+  .status-pill.empty { background: var(--red-tint); color: var(--red-deep); }
+  .status-pill.loading { background: var(--amber-tint); color: var(--amber-deep); }
+  .status-pill.error { background: var(--red-tint); color: var(--red-deep); }
+
+  .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: currentColor; flex-shrink: 0;
+  }
+  .ok .pulse { animation: blink 2.4s ease-in-out infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .section { margin-bottom: 28px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-title {
+    font-size: 0.6875rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-3); padding: 0 4px; margin-bottom: 10px;
   }
 
-  .status-banner {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: var(--green-light);
-    margin-bottom: 20px;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--green-primary);
-  }
+  .section.muted { opacity: 0.55; }
 
-  .status-banner.none-available {
-    background: var(--red-light);
-    color: var(--red-muted);
+  .tech-row {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 12px; padding: 14px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; margin-bottom: 8px;
+    animation: rise 450ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 40ms);
   }
+  .tech-row:last-child { margin-bottom: 0; }
+  .tech-row.active { border-color: oklch(78% 0.08 150); box-shadow: var(--shadow-card); }
 
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green-primary);
-    flex-shrink: 0;
-    animation: pulse-dot 2s ease-in-out infinite;
-  }
-
-  .none-available .status-dot {
-    background: var(--red-muted);
-    animation: none;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .section-label {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-    margin-bottom: 8px;
-    padding-left: 2px;
-  }
-
-  .tech-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-
-  .tech-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-    transition: transform 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
-  }
-
-  .tech-item:active {
-    transform: scale(0.985);
-  }
-
-  .tech-item.available {
-    border-color: oklch(82% 0.08 145);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .tech-info {
-    min-width: 0;
-  }
+  .tech-info { min-width: 0; }
 
   .tech-name {
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.9375rem; font-weight: 700; letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  .tech-meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 3px;
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
-    font-weight: 500;
+  .tech-detail {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 6px; margin-top: 4px;
   }
+
+  .chip {
+    display: inline-flex; align-items: center;
+    font-size: 0.6875rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 6px; letter-spacing: 0.01em;
+  }
+  .chip.on { background: var(--green-tint); color: var(--green-deep); }
+  .chip.off { background: oklch(93% 0.004 90); color: var(--text-3); }
+  .chip.folga { background: var(--amber-tint); color: var(--amber-deep); }
+  .chip.ferias { background: var(--blue-tint); color: var(--blue-deep); }
+  .chip.afastado { background: var(--red-tint); color: var(--red-deep); }
 
   .tech-shift {
-    font-variant-numeric: tabular-nums;
-  }
-
-  .tech-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 6px;
-    letter-spacing: 0.02em;
-  }
-
-  .tech-status.on {
-    background: var(--green-light);
-    color: var(--green-primary);
-  }
-
-  .tech-status.off {
-    background: oklch(94% 0.005 145);
-    color: var(--text-tertiary);
+    font-size: 0.75rem; color: var(--text-3);
+    font-weight: 600; font-variant-numeric: tabular-nums;
   }
 
   .tech-phone {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    font-variant-numeric: tabular-nums;
-    margin-top: 2px;
-    font-weight: 500;
+    font-size: 0.75rem; color: var(--text-2);
+    font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 2px;
   }
 
-  .wpp-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--green-primary);
+  .wpp-cta {
+    display: flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--green-deep); flex-shrink: 0;
     text-decoration: none;
-    flex-shrink: 0;
-    transition: transform 150ms var(--ease-out-expo), background 150ms var(--ease-out-expo);
+    transition: transform 120ms var(--ease-out), background 120ms var(--ease-out);
     -webkit-tap-highlight-color: transparent;
   }
-
-  .wpp-btn:active {
-    transform: scale(0.9);
-    background: var(--green-glow);
-  }
-
-  .wpp-btn svg {
-    width: 24px;
-    height: 24px;
-    fill: oklch(99% 0.005 145);
-  }
-
-  .tech-item:not(.available) .wpp-btn {
-    background: oklch(82% 0.01 145);
-  }
-
-  .off-shift-section {
-    opacity: 0.7;
-  }
-
-  .off-shift-section .tech-item {
-    background: oklch(97% 0.003 145);
-  }
+  .wpp-cta:active { transform: scale(0.92); background: var(--green-bright); }
+  .wpp-cta svg { width: 22px; height: 22px; fill: oklch(98% 0.005 150); }
+  .tech-row:not(.active) .wpp-cta { background: oklch(84% 0.01 90); }
 
   .footer {
-    text-align: center;
-    font-size: 0.6875rem;
-    color: var(--text-tertiary);
-    padding-top: 8px;
-    border-top: 1px solid var(--border-light);
-    font-weight: 500;
+    text-align: center; font-size: 0.6875rem; color: var(--text-3);
+    font-weight: 600; margin-top: 32px; padding-top: 16px;
+    border-top: 1px solid var(--border); line-height: 1.6;
   }
 
-  .footer a {
-    color: var(--green-primary);
-    text-decoration: none;
-    font-weight: 600;
+  .skel { display: flex; flex-direction: column; gap: 8px; }
+  .skel-row {
+    height: 78px; border-radius: 14px;
+    background: linear-gradient(90deg, oklch(93% 0.004 90) 25%, oklch(95.5% 0.003 90) 50%, oklch(93% 0.004 90) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
   }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-  .tech-item {
-    animation: slide-up 400ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--i, 0) * 50ms);
-  }
-
-  @keyframes slide-up {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   @media (min-width: 481px) {
     .page { padding: 0 24px 48px; }
-    .header { padding: 32px 0 24px; }
+    .header { padding: 36px 0 28px; }
   }
 </style>
 </head>
 <body>
 <div class="page">
   <div class="header">
-    <div class="header-icon">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <div class="header-top">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <h1>Chamar Técnico</h1>
     </div>
-    <h1>Chamar Técnico</h1>
     <div class="header-time">
-      <span id="date-display"></span> · <span class="clock" id="clock-display"></span>
+      <span id="dt"></span> · <span id="hm"></span>
     </div>
   </div>
 
-  <div class="status-banner" id="status-banner">
-    <div class="status-dot"></div>
-    <span id="status-text"></span>
+  <div class="status-pill loading" id="pill">
+    <div class="pulse"></div>
+    <span id="pill-text">Carregando escala…</span>
   </div>
 
-  <div id="available-section">
-    <div class="section-label">Em turno agora</div>
-    <div class="tech-list" id="available-list"></div>
-  </div>
-
-  <div id="off-section" class="off-shift-section">
-    <div class="section-label">Fora de turno</div>
-    <div class="tech-list" id="off-list"></div>
+  <div id="root">
+    <div class="skel">
+      <div class="skel-row"></div>
+      <div class="skel-row"></div>
+      <div class="skel-row"></div>
+    </div>
   </div>
 
   <div class="footer">
-    Atualiza automaticamente a cada minuto<br>
-    Manutenção Central
+    Atualiza a cada 5 min<br>
+    Manutenção Central · Araraquara
   </div>
 </div>
 
 <script>
-const TECNICOS = [
-  { nome: "Denilson Fernandes", tel: "(16) 99607-6225", wpp: "5516996076225", t1: [8,0,12,0], t2: [13,0,17,0] },
-  { nome: "Cássio U. de Souza", tel: "(16) 99737-0560", wpp: "5516997370560", t1: [8,0,12,0], t2: [13,0,18,0] },
-  { nome: "Otávio Alves",       tel: "(16) 99643-7458", wpp: "5516996437458", t1: [8,30,12,30], t2: [13,30,17,30] },
-  { nome: "Renato R. Marani",   tel: "(16) 99715-6731", wpp: "5516997156731", t1: [6,0,12,0], t2: [13,0,15,0] },
-  { nome: "Marquinhos",         tel: "(16) 99732-8407", wpp: "5516997328407", t1: [6,0,11,0], t2: [12,0,16,0] },
-  { nome: "Huander dos Santos", tel: "(16) 99754-4234", wpp: "5516997544234", t1: [7,0,12,0], t2: [13,0,16,0] },
-  { nome: "Eder Carlos Silva",  tel: "(16) 99632-6816", wpp: "5516996326816", t1: [9,0,13,0], t2: [14,0,20,0] },
-];
+const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSFo8WeOy0UozvIixSQUrTTBl9wRAaJEDhTa9bc3ocHFY4MqQXFyYwmrKp5ab3PO3o6dZIQQ99ycqry/pub?output=csv';
 
-function pad(n) { return String(n).padStart(2, '0'); }
+const HOR = {
+  '2':{e:'08:00',s:'17:00'},'11':{e:'05:00',s:'14:00'},'21':{e:'07:00',s:'16:00'},
+  '39':{e:'10:00',s:'19:00'},'65':{e:'07:00',s:'17:00'},'95':{e:'06:00',s:'16:00'},
+  '107':{e:'11:00',s:'20:00'},'108':{e:'15:00',s:'00:00'},'116':{e:'18:00',s:'04:00'},
+  '117':{e:'18:00',s:'03:00'},'118':{e:'19:00',s:'04:00'},'135':{e:'07:30',s:'16:30'},
+  '137':{e:'09:00',s:'18:00'},'138':{e:'23:00',s:'08:00'},'143':{e:'06:00',s:'15:00'},
+  '157':{e:'20:00',s:'05:00'},'159':{e:'21:00',s:'06:00'},'197':{e:'17:00',s:'04:00'},
+};
 
-function isOnShift(tech, now) {
-  const mins = now.getHours() * 60 + now.getMinutes();
-  const t1s = tech.t1[0] * 60 + tech.t1[1];
-  const t1e = tech.t1[2] * 60 + tech.t1[3];
-  const t2s = tech.t2[0] * 60 + tech.t2[1];
-  const t2e = tech.t2[2] * 60 + tech.t2[3];
-  return (mins >= t1s && mins < t1e) || (mins >= t2s && mins < t2e);
-}
+const AUS = {'F':'Folga','C':'Folga Compensada','AF':'Afastado','FE':'Férias','FR':'Feriado','BH':'Banco de Horas'};
 
-function formatShift(t) {
-  return `${pad(t[0])}:${pad(t[1])}–${pad(t[2])}:${pad(t[3])}`;
-}
+const pad = n => String(n).padStart(2,'0');
+const toMin = t => { const [h,m] = t.split(':').map(Number); return h*60+m; };
+const inShift = (e,s,now) => { const a=toMin(e),b=toMin(s); return b>a ? now>=a&&now<b : now>=a||now<b; };
 
-function buildTechHTML(tech, available, index) {
-  const statusClass = available ? 'on' : 'off';
-  const statusLabel = available ? 'Em turno' : 'Fora';
-  const itemClass = available ? 'available' : '';
-  const msg = encodeURIComponent(`Olá ${tech.nome.split(' ')[0]}, preciso de suporte técnico.`);
-  const wppLink = `https://wa.me/${tech.wpp}?text=${msg}`;
-
-  return `
-    <div class="tech-item ${itemClass}" style="--i: ${index}">
-      <div class="tech-info">
-        <div class="tech-name">${tech.nome}</div>
-        <div class="tech-meta">
-          <span class="tech-status ${statusClass}">${statusLabel}</span>
-          <span class="tech-shift">${formatShift(tech.t1)} · ${formatShift(tech.t2)}</span>
-        </div>
-        <div class="tech-phone">${tech.tel}</div>
-      </div>
-      <a href="${wppLink}" target="_blank" rel="noopener" class="wpp-btn" aria-label="Chamar ${tech.nome} no WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-    </div>`;
-}
-
-function render() {
-  const now = new Date();
-  const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-  const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  document.getElementById('date-display').textContent =
-    `${dias[now.getDay()]}, ${now.getDate()} ${meses[now.getMonth()]}`;
-  document.getElementById('clock-display').textContent =
-    `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-  const available = [];
-  const off = [];
-  TECNICOS.forEach(t => {
-    if (isOnShift(t, now)) available.push(t);
-    else off.push(t);
+function parseCSV(t) {
+  const lines = t.trim().split('\n');
+  return lines.map(l => {
+    const v=[]; let c='',q=false;
+    for(let i=0;i<l.length;i++){const ch=l[i]; if(ch==='"'){q=!q;continue;} if(ch===','&&!q){v.push(c.trim());c='';continue;} c+=ch;}
+    v.push(c.trim()); return v;
   });
+}
 
-  const banner = document.getElementById('status-banner');
-  const statusText = document.getElementById('status-text');
-  if (available.length > 0) {
-    banner.className = 'status-banner';
-    statusText.textContent = `${available.length} técnico${available.length > 1 ? 's' : ''} disponível${available.length > 1 ? 'is' : ''} agora`;
-  } else {
-    banner.className = 'status-banner none-available';
-    statusText.textContent = 'Nenhum técnico em turno agora';
+function extract(rows) {
+  let hi=-1;
+  for(let i=0;i<rows.length;i++){const lo=rows[i].map(c=>c.toLowerCase()); if(lo.some(c=>c.includes('nome'))&&lo.some(c=>c.includes('telefone')||c.includes('tel'))){hi=i;break;}}
+  if(hi<0) return [];
+  const h=rows[hi], ni=h.findIndex(c=>c.toLowerCase().includes('nome')), ti=h.findIndex(c=>{const l=c.toLowerCase();return l.includes('telefone')||l.includes('tel');});
+  const dc={};h.forEach((c,i)=>{const n=parseInt(c.trim(),10);if(n>=1&&n<=31)dc[n]=i;});
+  const out=[];
+  for(let i=hi+1;i<rows.length;i++){const r=rows[i],nome=(ni>=0?(r[ni]||''):'').trim(),tel=(ti>=0?(r[ti]||''):'').trim();
+    if(!nome||nome.length<2) continue;
+    const dias={};for(const[d,ci] of Object.entries(dc))dias[d]=(r[ci]||'').trim();
+    out.push({nome,telefone:tel,dias});}
+  return out;
+}
+
+function status(t,now) {
+  const today=now.getDate(), yd=new Date(now); yd.setDate(yd.getDate()-1);
+  const yday=yd.getDate(), nm=now.getHours()*60+now.getMinutes();
+  const ct=(t.dias[today]||'').trim(), cy=(t.dias[yday]||'').trim(), cu=ct.toUpperCase();
+  for(const[k,label] of Object.entries(AUS)){
+    if(cu===k){const cls=k==='FE'?'ferias':k==='AF'?'afastado':'folga'; return {s:'aus',label,cls,shift:null};}
   }
+  const hh=HOR[ct];
+  if(hh&&inShift(hh.e,hh.s,nm)) return {s:'on',label:'Em turno',cls:'on',shift:hh.e+'–'+hh.s};
+  const hy=HOR[cy];
+  if(hy){const a=toMin(hy.e),b=toMin(hy.s); if(b<a&&nm<b) return {s:'on',label:'Em turno',cls:'on',shift:hy.e+'–'+hy.s};}
+  return {s:'off',label:'Fora',cls:'off',shift:hh?hh.e+'–'+hh.s:null};
+}
 
-  const availSection = document.getElementById('available-section');
-  const availList = document.getElementById('available-list');
-  if (available.length > 0) {
-    availSection.style.display = 'block';
-    availList.innerHTML = available.map((t, i) => buildTechHTML(t, true, i)).join('');
-  } else {
-    availSection.style.display = 'none';
-  }
+const WS='<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
 
-  const offSection = document.getElementById('off-section');
-  const offList = document.getElementById('off-list');
-  if (off.length > 0) {
-    offSection.style.display = 'block';
-    offList.innerHTML = off.map((t, i) => buildTechHTML(t, false, i + available.length)).join('');
-  } else {
-    offSection.style.display = 'none';
+function card(t,info,i) {
+  const wpp=t.telefone.replace(/\D/g,'');
+  const num=wpp.startsWith('55')?wpp:'55'+wpp;
+  const fn=t.nome.split(' ')[0];
+  const msg=encodeURIComponent('Olá '+fn+', preciso de suporte técnico.');
+  const link='https://wa.me/'+num+'?text='+msg;
+  const on=info.s==='on';
+  return '<div class="tech-row'+(on?' active':'')+'" style="--i:'+i+'">'+
+    '<div class="tech-info">'+
+      '<div class="tech-name">'+t.nome+'</div>'+
+      '<div class="tech-detail">'+
+        '<span class="chip '+info.cls+'">'+info.label+'</span>'+
+        (info.shift?'<span class="tech-shift">'+info.shift+'</span>':'')+
+      '</div>'+
+      '<div class="tech-phone">'+(t.telefone||'Sem telefone')+'</div>'+
+    '</div>'+
+    '<a href="'+link+'" target="_blank" rel="noopener" class="wpp-cta" aria-label="Chamar '+t.nome+' no WhatsApp">'+WS+'</a>'+
+  '</div>';
+}
+
+function clock() {
+  const n=new Date();
+  const ds=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+  const ms=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  document.getElementById('dt').textContent=ds[n.getDay()]+', '+n.getDate()+' '+ms[n.getMonth()];
+  document.getElementById('hm').textContent=pad(n.getHours())+':'+pad(n.getMinutes());
+}
+
+function render(tecs) {
+  const now=new Date(); clock();
+  const g={on:[],aus:[],off:[]};
+  tecs.forEach(t=>{const i=status(t,now); g[i.s==='on'?'on':i.s==='aus'?'aus':'off'].push({t,i});});
+  const pill=document.getElementById('pill'), pt=document.getElementById('pill-text');
+  const oc=g.on.length;
+  if(oc>0){pill.className='status-pill ok';pt.textContent=oc+' técnico'+(oc>1?'s':'')+' disponível'+(oc>1?'is':'');}
+  else{pill.className='status-pill empty';pt.textContent='Nenhum técnico em turno agora';}
+  let html='',idx=0;
+  if(g.on.length){html+='<div class="section"><div class="section-title">Em turno agora</div>';g.on.forEach(x=>{html+=card(x.t,x.i,idx++);});html+='</div>';}
+  if(g.off.length){html+='<div class="section muted"><div class="section-title">Fora de turno</div>';g.off.forEach(x=>{html+=card(x.t,x.i,idx++);});html+='</div>';}
+  if(g.aus.length){html+='<div class="section muted"><div class="section-title">Ausentes hoje</div>';g.aus.forEach(x=>{html+=card(x.t,x.i,idx++);});html+='</div>';}
+  document.getElementById('root').innerHTML=html;
+}
+
+let cache=null;
+
+async function load() {
+  clock();
+  try {
+    const r=await fetch(CSV+'&_t='+Date.now());
+    if(!r.ok) throw new Error('HTTP');
+    const t=await r.text(), rows=parseCSV(t), tecs=extract(rows);
+    if(!tecs.length) throw new Error('empty');
+    cache=tecs; render(tecs);
+  } catch(e) {
+    if(cache){render(cache);}
+    else{
+      document.getElementById('pill').className='status-pill error';
+      document.getElementById('pill-text').textContent='Erro ao carregar. Verifique se a planilha está publicada.';
+      document.getElementById('root').innerHTML='';
+    }
   }
 }
 
-render();
-setInterval(render, 60000);
+load();
+setInterval(load, 300000);
+setInterval(()=>{if(cache)render(cache);else clock();}, 60000);
 </script>
 </body>
 </html>
