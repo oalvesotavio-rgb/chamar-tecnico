@@ -69,4 +69,301 @@
 
   .header h1 {
     font-size: 1.25rem; font-weight: 800;
-    letter-spacing: -0.025em; color:
+    letter-spacing: -0.025em; color: var(--text-1);
+  }
+
+  .header-time {
+    font-size: 0.8125rem; color: var(--text-3);
+    font-weight: 600; font-variant-numeric: tabular-nums; text-transform: capitalize;
+  }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.01em;
+    margin-bottom: 20px; width: fit-content; margin-left: auto; margin-right: auto;
+  }
+  .status-pill.ok { background: var(--green-tint); color: var(--green-deep); }
+  .status-pill.empty { background: var(--red-tint); color: var(--red-deep); }
+  .status-pill.loading { background: var(--amber-tint); color: var(--amber-deep); }
+  .status-pill.error { background: var(--red-tint); color: var(--red-deep); }
+
+  .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: currentColor; flex-shrink: 0;
+  }
+  .ok .pulse { animation: blink 2.4s ease-in-out infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .section { margin-bottom: 28px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-title {
+    font-size: 0.6875rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-3); padding: 0 4px; margin-bottom: 10px;
+  }
+
+  .section.muted { opacity: 0.55; }
+
+  .tech-row {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 12px; padding: 14px 16px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; margin-bottom: 8px;
+    animation: rise 450ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 40ms);
+  }
+  .tech-row:last-child { margin-bottom: 0; }
+  .tech-row.active { border-color: oklch(78% 0.08 150); box-shadow: var(--shadow-card); }
+
+  .tech-info { min-width: 0; }
+
+  .tech-name {
+    font-size: 0.9375rem; font-weight: 700; letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .tech-detail {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 6px; margin-top: 4px;
+  }
+
+  .chip {
+    display: inline-flex; align-items: center;
+    font-size: 0.6875rem; font-weight: 700;
+    padding: 2px 8px; border-radius: 6px; letter-spacing: 0.01em;
+  }
+  .chip.on { background: var(--green-tint); color: var(--green-deep); }
+  .chip.off { background: oklch(93% 0.004 90); color: var(--text-3); }
+  .chip.folga { background: var(--amber-tint); color: var(--amber-deep); }
+  .chip.ferias { background: var(--blue-tint); color: var(--blue-deep); }
+  .chip.afastado { background: var(--red-tint); color: var(--red-deep); }
+
+  .tech-shift {
+    font-size: 0.75rem; color: var(--text-3);
+    font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+
+  .tech-phone {
+    font-size: 0.75rem; color: var(--text-2);
+    font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 2px;
+  }
+
+  .wpp-cta {
+    display: flex; align-items: center; justify-content: center;
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--green-deep); flex-shrink: 0;
+    text-decoration: none;
+    transition: transform 120ms var(--ease-out), background 120ms var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .wpp-cta:active { transform: scale(0.92); background: var(--green-bright); }
+  .wpp-cta svg { width: 22px; height: 22px; fill: oklch(98% 0.005 150); }
+  .tech-row:not(.active) .wpp-cta { background: oklch(84% 0.01 90); }
+
+  .footer {
+    text-align: center; font-size: 0.6875rem; color: var(--text-3);
+    font-weight: 600; margin-top: 32px; padding-top: 16px;
+    border-top: 1px solid var(--border); line-height: 1.6;
+  }
+
+  .skel { display: flex; flex-direction: column; gap: 8px; }
+  .skel-row {
+    height: 78px; border-radius: 14px;
+    background: linear-gradient(90deg, oklch(93% 0.004 90) 25%, oklch(95.5% 0.003 90) 50%, oklch(93% 0.004 90) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .forms-cta {
+    display: none; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 14px 16px; margin-bottom: 20px;
+    background: var(--green-deep); color: oklch(98% 0.005 150);
+    border-radius: 14px; text-decoration: none;
+    font-size: 0.9375rem; font-weight: 700;
+    box-shadow: var(--shadow-card);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .forms-cta.show { display: flex; }
+  .forms-cta:active { background: var(--green-bright); }
+
+  @media (min-width: 481px) {
+    .page { padding: 0 24px 48px; }
+    .header { padding: 36px 0 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-top">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <h1>Chamar Técnico</h1>
+    </div>
+    <div class="header-time">
+      <span id="dt"></span> · <span id="hm"></span>
+    </div>
+  </div>
+
+  <div class="status-pill loading" id="pill">
+    <div class="pulse"></div>
+    <span id="pill-text">Carregando escala…</span>
+  </div>
+
+  <a class="forms-cta" id="forms" href="#" target="_blank" rel="noopener">Abrir chamado (formulário)</a>
+
+  <div id="root">
+    <div class="skel">
+      <div class="skel-row"></div>
+      <div class="skel-row"></div>
+      <div class="skel-row"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Atualiza a cada 5 min<br>
+    Manutenção Central · Araraquara
+  </div>
+</div>
+
+<script>
+const CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSFo8WeOy0UozvIixSQUrTTBl9wRAaJEDhTa9bc3ocHFY4MqQXFyYwmrKp5ab3PO3o6dZIQQ99ycqry/pub?output=csv';
+
+// Cole entre as aspas o link do formulário (Google Forms ou Microsoft Forms).
+// Se ficar vazio, o botão "Abrir chamado" não aparece.
+const FORMS = 'https://forms.cloud.microsoft/pages/responsepage.aspx?id=7a__kyCmzkGh1zWW0nWWq1DrxBUQPVVHuxXl5paOQ0lURVZQSkVaR09aMkNJTk81NzVYUjVJNERVQi4u&route=shorturl';
+
+const HOR = {
+  '2':{e:'08:00',s:'17:00'},'11':{e:'05:00',s:'14:00'},'21':{e:'07:00',s:'16:00'},
+  '39':{e:'10:00',s:'19:00'},'65':{e:'07:00',s:'17:00'},'95':{e:'06:00',s:'16:00'},
+  '107':{e:'11:00',s:'20:00'},'108':{e:'15:00',s:'00:00'},'116':{e:'18:00',s:'04:00'},
+  '117':{e:'18:00',s:'03:00'},'118':{e:'19:00',s:'04:00'},'135':{e:'07:30',s:'16:30'},
+  '137':{e:'09:00',s:'18:00'},'138':{e:'23:00',s:'08:00'},'143':{e:'06:00',s:'15:00'},
+  '157':{e:'20:00',s:'05:00'},'159':{e:'21:00',s:'06:00'},'197':{e:'17:00',s:'04:00'},
+};
+
+const AUS = {'F':'Folga','C':'Folga Compensada','AF':'Afastado','FE':'Férias','FR':'Feriado','BH':'Banco de Horas'};
+
+const pad = n => String(n).padStart(2,'0');
+const toMin = t => { const [h,m] = t.split(':').map(Number); return h*60+m; };
+const inShift = (e,s,now) => { const a=toMin(e),b=toMin(s); return b>a ? now>=a&&now<b : now>=a||now<b; };
+
+function parseCSV(t) {
+  const lines = t.trim().split('\n');
+  return lines.map(l => {
+    const v=[]; let c='',q=false;
+    for(let i=0;i<l.length;i++){const ch=l[i]; if(ch==='"'){q=!q;continue;} if(ch===','&&!q){v.push(c.trim());c='';continue;} c+=ch;}
+    v.push(c.trim()); return v;
+  });
+}
+
+function extract(rows) {
+  let hi=-1;
+  for(let i=0;i<rows.length;i++){const lo=rows[i].map(c=>c.toLowerCase()); if(lo.some(c=>c.includes('nome'))&&lo.some(c=>c.includes('telefone')||c.includes('tel'))){hi=i;break;}}
+  if(hi<0) return [];
+  const h=rows[hi], ni=h.findIndex(c=>c.toLowerCase().includes('nome')), ti=h.findIndex(c=>{const l=c.toLowerCase();return l.includes('telefone')||l.includes('tel');});
+  const dc={};h.forEach((c,i)=>{const n=parseInt(c.trim(),10);if(n>=1&&n<=31)dc[n]=i;});
+  const out=[];
+  for(let i=hi+1;i<rows.length;i++){const r=rows[i],nome=(ni>=0?(r[ni]||''):'').trim(),tel=(ti>=0?(r[ti]||''):'').trim();
+    if(!nome||nome.length<2) continue;
+    const dias={};for(const[d,ci] of Object.entries(dc))dias[d]=(r[ci]||'').trim();
+    out.push({nome,telefone:tel,dias});}
+  return out;
+}
+
+function status(t,now) {
+  const today=now.getDate(), yd=new Date(now); yd.setDate(yd.getDate()-1);
+  const yday=yd.getDate(), nm=now.getHours()*60+now.getMinutes();
+  const ct=(t.dias[today]||'').trim(), cy=(t.dias[yday]||'').trim(), cu=ct.toUpperCase();
+  for(const[k,label] of Object.entries(AUS)){
+    if(cu===k){const cls=k==='FE'?'ferias':k==='AF'?'afastado':'folga'; return {s:'aus',label,cls,shift:null};}
+  }
+  const hh=HOR[ct];
+  if(hh&&inShift(hh.e,hh.s,nm)) return {s:'on',label:'Em turno',cls:'on',shift:hh.e+'–'+hh.s};
+  const hy=HOR[cy];
+  if(hy){const a=toMin(hy.e),b=toMin(hy.s); if(b<a&&nm<b) return {s:'on',label:'Em turno',cls:'on',shift:hy.e+'–'+hy.s};}
+  return {s:'off',label:'Fora',cls:'off',shift:hh?hh.e+'–'+hh.s:null};
+}
+
+const WS='<svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+
+function card(t,info,i) {
+  const wpp=t.telefone.replace(/\D/g,'');
+  const num=wpp.startsWith('55')?wpp:'55'+wpp;
+  const fn=t.nome.split(' ')[0];
+  const msg=encodeURIComponent('Olá '+fn+', preciso de suporte técnico.');
+  const link='https://wa.me/'+num+'?text='+msg;
+  const on=info.s==='on';
+  return '<div class="tech-row'+(on?' active':'')+'" style="--i:'+i+'">'+
+    '<div class="tech-info">'+
+      '<div class="tech-name">'+t.nome+'</div>'+
+      '<div class="tech-detail">'+
+        '<span class="chip '+info.cls+'">'+info.label+'</span>'+
+        (info.shift?'<span class="tech-shift">'+info.shift+'</span>':'')+
+      '</div>'+
+      '<div class="tech-phone">'+(t.telefone||'Sem telefone')+'</div>'+
+    '</div>'+
+    '<a href="'+link+'" target="_blank" rel="noopener" class="wpp-cta" aria-label="Chamar '+t.nome+' no WhatsApp">'+WS+'</a>'+
+  '</div>';
+}
+
+function clock() {
+  const n=new Date();
+  const ds=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+  const ms=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  document.getElementById('dt').textContent=ds[n.getDay()]+', '+n.getDate()+' '+ms[n.getMonth()];
+  document.getElementById('hm').textContent=pad(n.getHours())+':'+pad(n.getMinutes());
+}
+
+function render(tecs) {
+  const now=new Date(); clock();
+  const g={on:[],aus:[],off:[]};
+  tecs.forEach(t=>{const i=status(t,now); g[i.s==='on'?'on':i.s==='aus'?'aus':'off'].push({t,i});});
+  const pill=document.getElementById('pill'), pt=document.getElementById('pill-text');
+  const oc=g.on.length;
+  if(oc>0){pill.className='status-pill ok';pt.textContent=oc+' técnico'+(oc>1?'s':'')+' disponível'+(oc>1?'is':'');}
+  else{pill.className='status-pill empty';pt.textContent='Nenhum técnico em turno agora';}
+  let html='',idx=0;
+  if(g.on.length){html+='<div class="section"><div class="section-title">Em turno agora</div>';g.on.forEach(x=>{html+=card(x.t,x.i,idx++);});html+='</div>';}
+  if(g.off.length){html+='<div class="section muted"><div class="section-title">Fora de turno</div>';g.off.forEach(x=>{html+=card(x.t,x.i,idx++);});html+='</div>';}
+  if(g.aus.length){html+='<div class="section muted"><div class="section-title">Ausentes hoje</div>';g.aus.forEach(x=>{html+=card(x.t,x.i,idx++);});html+='</div>';}
+  document.getElementById('root').innerHTML=html;
+}
+
+(function(){const a=document.getElementById('forms');if(FORMS){a.href=FORMS;a.classList.add('show');}})();
+
+let cache=null;
+
+async function load() {
+  clock();
+  try {
+    const r=await fetch(CSV+'&_t='+Date.now());
+    if(!r.ok) throw new Error('HTTP');
+    const t=await r.text(), rows=parseCSV(t), tecs=extract(rows);
+    if(!tecs.length) throw new Error('empty');
+    cache=tecs; render(tecs);
+  } catch(e) {
+    if(cache){render(cache);}
+    else{
+      document.getElementById('pill').className='status-pill error';
+      document.getElementById('pill-text').textContent='Erro ao carregar. Verifique se a planilha está publicada.';
+      document.getElementById('root').innerHTML='';
+    }
+  }
+}
+
+load();
+setInterval(load, 300000);
+setInterval(()=>{if(cache)render(cache);else clock();}, 60000);
+</script>
+</body>
+</html>
